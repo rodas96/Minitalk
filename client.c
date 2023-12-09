@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rmorais <rmorais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 17:48:52 by codespace         #+#    #+#             */
-/*   Updated: 2023/12/08 17:16:42 by codespace        ###   ########.fr       */
+/*   Updated: 2023/12/09 16:27:31 by rmorais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,9 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	signal(SIGUSR1, signal_handler);
-	i = 0;
-	while (argv[2][i])
-	{
+	i = -1;
+	while (argv[2][++i])
 		send_char(ft_atoi(argv[1]), argv[2][i]);
-		i++;
-	}
+	send_char(ft_atoi(argv[1]), '\0');
 	return (0);
 }
