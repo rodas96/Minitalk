@@ -13,45 +13,45 @@
 #include "minitalk.h"
 #include <signal.h>
 
-void    ft_handle(int sig, siginfo_t *info, void *context)
+void	t_handle(int sig, siginfo_t *info, void *context)
 {
-    static int  bit = 0;
-    static char c = 0;
+	static int	bit;
+	static char	c;
 
-    (void)info;
-    (void)context;
-    if (sig == SIGUSR1)
-        c |= 1 << bit;
-    bit++;
-    if (bit == 8)
-    {
-        ft_printf("%c", c);
-        bit = 0;
-        c = 0;
-    }
-    kill(info->si_pid, SIGUSR1);
+	(void)info;
+	(void)context;
+	c = 0;
+	bit = 0;
+	if (sig == SIGUSR1)
+		c |= 1 << bit;
+	bit++;
+	if (bit == 8)
+	{
+		ft_printf("%c", c);
+		bit = 0;
+		c = 0;
+	}
+	kill(info->si_pid, SIGUSR1);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    struct sigaction    sa;
-    (void)argv;
+	struct sigaction	sa;
 
-    if (argc != 1)
-    {
-        ft_printf("Error: Wrong number of arguments.\n");
-        return (1);
-    }
-    ft_printf("PID: %d\n", getpid());
-    sa.sa_sigaction = ft_handle;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_SIGINFO;
-    if (sigaction(SIGUSR1, &sa, NULL) != 0)
-        return (1);
-    sigaction(SIGUSR1, &sa, NULL);
-    sigaction(SIGUSR2, &sa, NULL);
-    while(1)
-        pause();
+	(void)argv;
+	if (argc != 1)
+	{
+		ft_printf("Error: Wrong number of arguments.\n");
+		return (1);
+	}
+	ft_printf("PID: %d\n", getpid());
+	sa.sa_sigaction = ft_handle;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
+	if (sigaction(SIGUSR1, &sa, NULL) != 0)
+		return (1);
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
+	while (1)
+		pause();
 }
-
-
